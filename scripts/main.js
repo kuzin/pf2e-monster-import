@@ -27,6 +27,12 @@ class MonsterImportInit {
     Hooks.on('ready', () => {
       MONSTER.MonsterImport = new MonsterImport();
 
+      game.settings.register("pf2e_monster_import", "files", {
+        scope: "world",
+        default: {},
+        type: Object,
+      });
+
       game.settings.register("pf2e_monster_import", "folderDir", {
         name: "Base Monster Directory",
         hint: "This is where you store your custom monster JSON files",
@@ -57,7 +63,9 @@ class MonsterImport {
           icon: '<i class="fas fa-file-upload"></i>',
           label: "Choose File",
           callback: () =>
-            this.beginImport(),
+            this.beginImport(
+              window.Azzu.SettingsTypes.DirectoryPicker.format(game.settings.get("pf2e_monster_import", "folderDir"))
+            ),
         }
       },
       default: "Cancel"
@@ -65,13 +73,11 @@ class MonsterImport {
     launchInterface.render(true);
   }
 
-  async beginImport() {
-
-    console.log(game);
+  async beginImport(dir) {
 
     let options = {};
 
-    FilePicker.browse();
+    FilePicker.browse('data', dir, options);
 
   }
 
