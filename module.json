@@ -1,0 +1,14 @@
+{
+  "name": "pf2e-monster-import",
+  "title": "Pathfindeer 2 - Monster Importer",
+  "description": "Import Custom Monsters from PF2E Monster Tool (https://monster.pf2.tools/)",
+  "author": "Kuzin",
+  "version": "0.1.0",
+  "minimumCoreVersion": "0.6.4",
+  "compatibleCoreVersion": "0.6.4",
+  "scripts": [
+    "./src/main.js"
+  ],
+  "manifest": "https://raw.githubusercontent.com/kuzin/pf2e-monster-import/master/module.json",
+  "download": "https://github.com/kuzin/pf2e-monster-import/archive/master.zip"
+}
