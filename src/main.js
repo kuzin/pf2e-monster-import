@@ -1,9 +1,80 @@
-console.log("Hello World! This code runs immediately when the file is loaded.");
 
-Hooks.on("init", function () {
-  console.log("This code runs once the Foundry VTT software begins it's initialization workflow.");
-});
+const MONSTER = this.MONSTER || {};
 
-Hooks.on("ready", function () {
-  console.log("This code runs once core initialization is ready and game data is available.");
-});
+class MonsterImportInit {
+  
+  constructor() {}
+
+  static init() {
+    MonsterImportInit.hookReady();
+    MonsterImportInit.hookRenderActorDirectory();
+  }
+
+  static hookRenderActorDirectory() {
+    Hooks.on("renderActorDirectory", (app, html, data) => {
+
+      const importButton = $('<button class="monster-import-btn"><i class="fas fa-pastafarianism"></i>Monster Import</button>');
+      html.find(".directory-footer").append(importButton);
+
+      importButton.click((ev) => {
+        MONSTER.MonsterImport.testModal();
+      });
+
+    });
+  }
+
+  static hookReady() {
+    Hooks.on('ready', () => {
+      MONSTER.MonsterImport = new MonsterImport();
+
+      game.settings.register("pf2e_monster_import", "folderDir", {
+        name: "Base Monster Directory",
+        hint: "This is where you store your custom monster JSON files",
+        type: window.Azzu.SettingsTypes.DirectoryPicker,
+        default: "monsters",
+        scope: "world",
+        config: true
+      });
+
+    });
+  }
+}
+
+class MonsterImport {
+
+  constructor() {}
+
+  _getJSON() {
+    console.log(game);
+  }
+
+  testModal() {
+    let launchInterface = new Dialog({
+      title: 'OMG',
+      content: '<p>WTF</p>',
+      buttons: {
+        one: {
+          icon: '<i class="fas fa-file-upload"></i>',
+          label: "Choose File",
+          callback: () =>
+            this.beginImport(),
+        }
+      },
+      default: "Cancel"
+    });
+    launchInterface.render(true);
+  }
+
+  async beginImport() {
+
+    console.log(game);
+
+    let options = {};
+
+    FilePicker.browse();
+
+  }
+
+}
+
+MonsterImportInit.init();
